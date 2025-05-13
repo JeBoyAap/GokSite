@@ -1,0 +1,203 @@
+body {
+    background-color: gainsboro;
+}
+
+.homepage-background-image {
+    display: block;
+    margin: 0;
+    position: fixed;
+    left: 0px;
+    top: -35px;
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 90px;
+    width: 1920px;
+    background-color: rgb(20, 20, 20);
+}
+
+.gok-logo {
+    display: inline-block;
+    background-color: orange;
+    font-family: Calibri;
+    font-size: 50px;
+    font-weight: bold;
+    padding-left: 5px;
+    color: rgb(20, 20, 20);
+    margin-top: 15px;
+    margin-left: 20px;
+    width: 90px;
+    height: 60px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.site-logo {
+    display: inline-block;
+    font-family: Calibri;
+    font-size: 50px;
+    font-weight: bold;
+    padding-left: 5px;
+    color: white;
+    margin-top: 15px;
+    margin-left: 0px;
+    width: 100px;
+    height: 60px;
+    border: none;
+    border-radius: 6px;
+}
+
+.logo-top {
+    transition: opacity 0.2s;
+    text-decoration: none;
+}
+
+.logo-top:hover {
+    opacity: 0.8;
+}
+
+.logo-divider {
+    display: inline-block;
+    position: fixed;
+    left: 220px;
+    width: 5px;
+    height: 90px;
+    background-color: gainsboro;
+}
+
+.falling-balls-main {
+    display: inline-block;
+    background-color:rgb(0, 162, 232);
+    border-style: solid;
+    border-color: rgb(20, 20, 20);
+    border-width: 2px;
+    border-radius: 15px;
+    margin-top: 120px;
+    margin-left: 50px;
+    height: 750px;
+    width: 700px;
+    transition: opacity 0.15s;
+    text-decoration: none;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.falling-balls-main:hover {
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+.falling-balls-title {
+    display: block;
+    background-color: rgb(0, 162, 232);
+    border-style: solid;
+    border-color: rgb(20, 20, 20);
+    border-width: 2px;
+    border-radius: 15px;
+    height: 60px;
+    width: 650px;
+    margin-top: 20px;
+    margin-left: 23px;
+    font-family: Calibri;
+    font-size: 45px;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(20, 20, 20);
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.falling-balls-image {
+    display: block;
+    margin: auto;
+    margin-top: 200px;
+}
+
+.mine-mania-main {
+    display: inline-block;
+    background-color: rgb(63, 72, 204);
+    border-style: solid;
+    border-color: rgb(20, 20, 20);
+    border-width: 2px;
+    border-radius: 15px;
+    margin-top: 120px;
+    margin-left: 50px;
+    height: 750px;
+    width: 700px;
+    transition: opacity 0.15s;
+    text-decoration: none;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.mine-mania-main:hover {
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+.mine-mania-title {
+    display: block;
+    background-color: rgb(63, 72, 204);
+    border-style: solid;
+    border-color: rgb(20, 20, 20);
+    border-width: 2px;
+    border-radius: 15px;
+    height: 60px;
+    width: 650px;
+    margin-top: 20px;
+    margin-left: 23px;
+    font-family: Calibri;
+    font-size: 45px;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(20, 20, 20);
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.mine-mania-image {
+    display: block;
+    margin: auto;
+    margin-top: 200px;
+}
+
+.leaderboard-main {
+    display: inline-block;
+    background-color: rgb(112, 146, 190);
+    border-style: solid;
+    border-color: rgb(20, 20, 20);
+    border-width: 2px;
+    border-radius: 15px;
+    margin-top: 120px;
+    margin-left: 50px;
+    height: 750px;
+    width: 300px;
+    transition: opacity 0.15s;
+    text-decoration: none;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.leaderboard-main:hover {
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+.leaderboard-title {
+    display: block;
+    background-color: rgb(112, 146, 190);
+    border-style: solid;
+    border-color: rgb(20, 20, 20);
+    border-width: 2px;
+    border-radius: 15px;
+    height: 60px;
+    width: 250px;
+    margin-top: 20px;
+    margin-left: 23px;
+    font-family: Calibri;
+    font-size: 45px;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(20, 20, 20);
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2);
+}
+
