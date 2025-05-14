@@ -1,0 +1,29 @@
+body {
+    background: #222;
+    color: #fff;
+    text-align: center;
+    font-family: sans-serif;
+}
+#plinko-container {
+    margin: 0 auto;
+    width: 440px;
+    height: 660px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+canvas {
+    display: block;
+    margin: 0 auto;
+}
+button {
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: none;
+    background: #4caf50;
+    color: white;
+    cursor: pointer;
+}
