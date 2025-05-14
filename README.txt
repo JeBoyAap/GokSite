@@ -7,4 +7,5 @@ vscode extensions:
 
 
 Todo:
-- Fix background size in fullscreen
+- Fix achtergrond grootte in fullscreen
+- Fix mine mania afbeelding, onderste rij (en bom)
