@@ -72,4 +72,11 @@ canvas {
     background: rgb(8, 30, 249) 0% 0%;
     border-radius: 10px;
     color: #00a8f3;
+
+}
+
+#spawn-ball-button {
+    position: relative;
+    left: 100px;
+    top: 200px;
 }
