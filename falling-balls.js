@@ -33,6 +33,8 @@ Render.run(render);
 const runner = Runner.create();
 Runner.run(runner, engine);
 
+
+
 // Create the grid of static pegs for the Plinko board
 createPlinkoGrid(
   8,    // Number of rows of pegs
@@ -57,6 +59,15 @@ function createPlinkoGrid(rows, cols, spacingX, spacingY, offsetX, offsetY) {
     }
   }
 }
+
+//Create multipliers
+
+const multiplierBar = Matter.Bodies.rectangle(render.canvas.width / 2, render.canvas.height, render.canvas.width, 20, {
+  isStatic: true,
+  render: {fillStyle: 'white'}
+});
+Matter.World.add(world, multiplierBar)
+
 
 // Set gravity for the simulation (controls how fast balls fall)
 engine.world.gravity.y = 0.4; // Try values between 0.2 and 0.6 for different effects
@@ -132,3 +143,11 @@ Matter.Events.on(engine, 'beforeUpdate', () => {
     }
   });
 });
+
+
+
+
+
+if (Matter.Collision.collides(a, b) != null) {
+  
+}
