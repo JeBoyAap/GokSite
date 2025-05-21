@@ -6,36 +6,47 @@ const Bodies = Matter.Bodies;
 const World = Matter.World;
 const Body = Matter.Body;
 
-// Create the Matter.js engine and world (the simulation environment)
+// Create the Matter.js engine and world
 const engine = Engine.create();
 const world = engine.world;
 
-// Get the canvas element from the HTML to use for rendering
 const canvas = document.getElementById('falling-balls-canvas');
 
-// Set up the renderer to display the simulation on the canvas
 const render = Render.create({
-  element: document.body, // Attach the renderer to the body
+  element: document.body,
   engine: engine,
   options: {
     width: 800,
     height: 600,
-    wireframes: false, // Render filled shapes instead of wireframes
+    wireframes: false,
     background: '#00a1e9'
   },
-  canvas: canvas // Use the existing canvas element
+  canvas: canvas
 });
 
-// Start the renderer to display the simulation
+// Start renderer
 Render.run(render);
 
-// Create and start the runner to advance the simulation over time
-const runner = Runner.create();
-Runner.run(runner, engine);
+// Create and start runner
+let lastTime = 0;
+const timeStep = 1000 / 60;
 
+function animate(time) {
+  if (!lastTime) {
+    lastTime = time;  
+  }
+  const delta = time - lastTime;
 
+  if (delta >= timeStep) {
+    Engine.update(engine, timeStep);
+    lastTime = time;
+  }  
+  
+  requestAnimationFrame(animate);
+}
 
-// Create the grid of static pegs for the Plinko board
+requestAnimationFrame(animate);
+
 createPlinkoGrid(
   8,    // Number of rows of pegs
   10,   // Number of pegs in the bottom (widest) row
@@ -53,6 +64,7 @@ function createPlinkoGrid(rows, cols, spacingX, spacingY, offsetX, offsetY) {
       const y = offsetY + row * -spacingY;
       const peg = Matter.Bodies.circle(x, y, 6, {
         isStatic: true,
+        label: 'peg',
         render: { fillStyle: 'white' }
       });
       Matter.World.add(world, peg);
@@ -64,21 +76,20 @@ function createPlinkoGrid(rows, cols, spacingX, spacingY, offsetX, offsetY) {
 
 const multiplierBar = Matter.Bodies.rectangle(render.canvas.width / 2, render.canvas.height, render.canvas.width, 20, {
   isStatic: true,
+  label: 'multiplier',
   render: {fillStyle: 'white'}
 });
-Matter.World.add(world, multiplierBar)
+Matter.World.add(world, multiplierBar);
 
-
-// Set gravity for the simulation (controls how fast balls fall)
-engine.world.gravity.y = 0.4; // Try values between 0.2 and 0.6 for different effects
+engine.world.gravity.y = 0.4;
 
 // Add a new ball at the mouse position when the user clicks the canvas
 render.canvas.addEventListener('mousedown', function(event) {
-  const rect = render.canvas.getBoundingClientRect(); // Get canvas position on screen
+  const rect = render.canvas.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
   const ball = Bodies.circle(x, y, 15, {
-    restitution: 0.9, // Bounciness
+    restitution: 0.9,
     density: 1,
     frictionAir: 0.02,
     label: 'ball',
@@ -87,14 +98,12 @@ render.canvas.addEventListener('mousedown', function(event) {
   World.add(world, ball);
 });
 
-
-const BALL_GROUP = Body.nextGroup(true); // negative group for non-colliding within group
+const BALL_GROUP = Body.nextGroup(true);
 const spawnButton = document.getElementById('spawn-ball-button');
 
 spawnButton.addEventListener('click', function() {
   const x = render.options.width / 2 + -30 + (Math.random() * 60);
   const y = -(Math.random() * 20);
-
   const ball = Bodies.circle(x, y, 15, {
     restitution: 0.9,
     density: 1,
@@ -102,10 +111,9 @@ spawnButton.addEventListener('click', function() {
     label: 'ball',
     render: { fillStyle: 'orange' },
     collisionFilter: {
-      group: BALL_GROUP // Balls in the same group will not collide with each other
+      group: BALL_GROUP
     }
   });
-
   World.add(world, ball);
 });
 
@@ -127,12 +135,9 @@ Matter.Events.on(engine, 'beforeUpdate', () => {
         let scale = 1;
         if (speed > speedThreshold) {
           const excessSpeed = speed - speedThreshold;
-          // Use exponential or linear drag depending on the toggle
           scale = exponentialDrag
             ? Math.exp(-dampingFactor * excessSpeed)
             : 1 - dampingFactor * (excessSpeed / speed);
-          scale = Math.max(0.2, Math.min(scale, 1)); // Clamp scale between 0.2 and 1
-
           scale = Math.max(0.2, Math.min(scale, 1));
         }
         Matter.Body.setVelocity(body, {
@@ -144,10 +149,18 @@ Matter.Events.on(engine, 'beforeUpdate', () => {
   });
 });
 
+Matter.Events.on(engine, 'collisionStart', function(event) {
+  for (let pair of event.pairs) {
+    const { bodyA, bodyB } = pair;
 
-
-
-
-if (Matter.Collision.collides(a, b) != null) {
-  
-}
+    if (bodyA.label === 'ball' && bodyB.label === 'multiplier') {
+      console.log('Ball hit a multiplier!');
+      Matter.World.remove(world, bodyA)
+    }
+    
+    else if (bodyB.label === 'ball' && bodyA.label === 'multiplier') { 
+      console.log('Ball hit a multiplier!');
+      Matter.World.remove(world, bodyB)
+    }
+  }
+});
