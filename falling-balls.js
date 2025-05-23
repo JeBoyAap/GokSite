@@ -118,12 +118,11 @@ spawnButton.addEventListener('click', function() {
 });
 
 
-// Parameters for limiting ball speed (drag/damping)
-const dampingFactor = 0.1;   // How strong the drag is
-const speedThreshold = 10;   // Speed above which drag is applied
-const exponentialDrag = true; // Use exponential drag if true, linear if false
+// Ball speed limiting
+const dampingFactor = 0.1;
+const speedThreshold = 15;
+const exponentialDrag = true;
 
-// Apply drag to balls that are moving too fast before each simulation update
 Matter.Events.on(engine, 'beforeUpdate', () => {
   const allBodies = Matter.Composite.allBodies(world);
   allBodies.forEach(body => {
