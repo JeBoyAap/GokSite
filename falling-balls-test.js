@@ -1,5 +1,3 @@
-const debugMode = true; // Enable to turn on logging to console
-
 // Import Matter.js modules
 const Engine = Matter.Engine;
 const Render = Matter.Render;
@@ -73,7 +71,7 @@ function createPegGrid(rowCount, bottomRowCount, spacingX, spacingY, startX, sta
 createPegGrid(8, 10, 80, 60, 40, 500);
 
 // Create multiplier slots at the bottom
-const multiplierValues = [10, 2.5, 1, 0.8, 0.5, 0.8, 1, 2.5, 10];
+const multiplierValues = [7, 2, 1, 0.8, 0.5, 0.8, 1, 2, 7];
 const multiplierColors = ['#ff9800', '#4caf50', '#2196f3', '#e91e63', '#9c27b0', '#e91e63', '#2196f3', '#4caf50', '#ff9800'];
 const slotWidth = render.canvas.width / multiplierValues.length - 15;
 const slotHeight = 50;
@@ -113,28 +111,24 @@ Events.on(render, 'afterRender', () => {
   context.restore();
 });
 
-// Handle button click to drop a ball
-const BALL_GROUP = Body.nextGroup(true);
-let activeBalls = 0
-let totalBalls = 0
-document.getElementById('spawn-ball-button').addEventListener('click', function() {
+// Handle mouse click to drop a ball
+canvas.addEventListener('mousedown', function(event) {
+  const canvasBounds = canvas.getBoundingClientRect();
+  const x = event.clientX - canvasBounds.left;
+  const y = event.clientY - canvasBounds.top;
 
-  if (balance >= betAmount) {
-    balance -= betAmount;
-    const x = render.options.width / 2 + Math.random() * 60 - 30;
-    const y = -Math.random() * 20;
-    createBall(x, y);
-    activeBalls += 1
-    if (debugMode) {console.log('Active balls: ', activeBalls)
-        totalBalls += 1;
-        console.log('Total balls dropped: ', totalBalls)
-    }
-  }
-  else {
-    //alert("Bet amount is too high")
-  }
+  createBall(x, y);
 });
 
+// Handle button click to drop a ball
+const spawnButton = document.getElementById('spawn-ball-button');
+const BALL_GROUP = Body.nextGroup(true);
+
+spawnButton.addEventListener('click', function() {
+  const x = render.options.width / 2 + Math.random() * 60 - 30;
+  const y = -Math.random() * 20;
+  createBall(x, y);
+});
 
 // Function to create a new ball
 function createBall(x, y) {
@@ -171,44 +165,18 @@ Events.on(engine, 'beforeUpdate', function() {
 
         if (speed > maxSpeed) {
           const extraSpeed = speed - maxSpeed;
+          scale = useExponentialDrag
+            ? Math.exp(-dragAmount * extraSpeed)
+            : 1 - dragAmount * (extraSpeed / speed);
+          scale = Math.max(0.2, Math.min(scale, 1));
+        }
 
-          if (useExponentialDrag) {
-            scale = Math.exp(-dragAmount * extraSpeed);
-          } else {
-            scale = 1 - dragAmount * (extraSpeed / speed);
-          }
-
-          if (scale < 0.2) scale = 0.2;
-          if (scale > 1) scale = 1;
-}
         Body.setVelocity(body, {
           x: vx * scale,
           y: vy * scale
         });
       }
     }
-  }
-});
-
-
-// Bet amount changing
-let betAmount = 1;
-
-document.getElementById('set-bet-amount').addEventListener('click', function() {
-  if (activeBalls == 0) {
-    const input = document.getElementById('bet-input')
-    const newBetAmount = parseFloat(input.value);
-
-    if (!isNaN(newBetAmount) && newBetAmount >= 0.1) {
-    betAmount = newBetAmount;
-    if (debugMode) console.log('Bet amount set to: ', betAmount)
-    }
-    else {
-    alert('Not a valid bet amount');
-    }
-  }
-  else if (activeBalls > 0) {
-    alert('Wait untill all balls are gone before betting');
   }
 });
 
@@ -235,14 +203,14 @@ Events.on(engine, 'collisionStart', function(event) {
     }
 
     if (ball && multiplier) {
-      balance += betAmount * multiplier.multiplierValue;
-      if (debugMode) console.log('Ball hit multiplier x' + multiplier.multiplierValue);
-      if (debugMode) console.log('Balance:', balance);
+      balance += multiplier.multiplierValue - 1;
+      console.log('Ball hit multiplier x' + multiplier.multiplierValue);
+      console.log('Balance:', balance);
+
       World.remove(world, ball);
-      activeBalls -= 1;
-      if (debugMode) console.log('Active balls: ', activeBalls);
     }
   }
   //update balance display
   document.getElementById('balance-display').textContent = 'Balance: '+ balance.toFixed(2);
+
 });

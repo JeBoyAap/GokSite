@@ -14,7 +14,7 @@ body {
 
 .gok-logo {
     display: inline-block;
-    background-color: orange;
+    background-color: rgb(0, 162, 232);
     font-family: Calibri;
     font-size: 50px;
     font-weight: bold;
@@ -77,8 +77,20 @@ canvas {
 
 }
 
+.side-panel {
+    position: relative;
+    left: 100px;
+    top: 200px;
+}
+
 #spawn-ball-button {
     position: relative;
     left: 100px;
     top: 200px;
+}
+
+#balance-display {
+    position: relative;
+    left: 100px;
+    top: 250px;
 }
